@@ -9,10 +9,12 @@
 import UIKit
 
 class UserTableViewController: UITableViewController {
-
+    //MARK: properties
+    var users = [User]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        loadUsers()
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -30,24 +32,37 @@ class UserTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 0
+        return users.count + 1
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
-
+        let cellIdentifier = "UserTableViewCell"
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier, forIndexPath: indexPath) as UserTableViewCell
+        if (indexPath.row < users.count) {
+            let user = self.users[indexPath.row]
+            cell.idLabel.text = String(user.id)
+            cell.usernameText.text =  user.username
+            cell.saveButton.hidden = false
+            cell.deleteButton.hidden = false
+        } else {
+            cell.idLabel.text = ""
+            cell.usernameText.text =  ""
+            cell.saveButton.hidden = false
+            cell.saveButton.setTitle("Add", forState:UIControlState.Normal)
+            cell.deleteButton.hidden = true
+        }
         return cell
     }
-    */
+    
 
     /*
     // Override to support conditional editing of the table view.
@@ -94,4 +109,36 @@ class UserTableViewController: UITableViewController {
     }
     */
 
+    
+    //MARK: data loading functions
+    func loadUsers() {
+        
+        var url : String = "http://boiling-ocean-2662.herokuapp.com/api/v1/users"
+        var request : NSMutableURLRequest = NSMutableURLRequest()
+        request.URL = NSURL(string: url)
+        request.HTTPMethod = "GET"
+        
+        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{ (response:NSURLResponse!, data: NSData!, error: NSError!) -> Void in
+            var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
+            var parseError: NSError?
+            let parsedObject: AnyObject? = NSJSONSerialization.JSONObjectWithData(data,
+                options: NSJSONReadingOptions.AllowFragments,
+                error:&parseError)
+
+                //2
+                self.users = [User]()
+                if let rows = parsedObject as? NSArray {
+                    for i in 0 ... rows.count - 1 {
+                        let row = rows[i] as NSDictionary
+                        let id = row["id"] as Int
+                        let username = row["username"] as String
+                        let user = User(id: id, username: username)
+                        self.users.append(user!)
+                    }
+                }
+           self.tableView!.reloadData()
+
+        })
+
+    }
 }

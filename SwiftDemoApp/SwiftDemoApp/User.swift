@@ -7,3 +7,16 @@
 //
 
 import Foundation
+
+class User {
+    var id: Int
+    var username: String
+    
+    init?(id: Int, username: String) {
+        self.id = id
+        self.username = username
+        if id < 0 || username.isEmpty {
+            return nil
+        }
+    }
+}
