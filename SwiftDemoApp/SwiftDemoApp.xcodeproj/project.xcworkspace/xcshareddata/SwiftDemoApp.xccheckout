@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>38A92FA2-96C9-4D2F-A73E-433D942E7B68</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SwiftDemoApp</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>9F90E70153298FDDC5012D6800C8568ACED86698</key>
+		<string>https://github.com/fsli/rest_app_demo.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SwiftDemoApp/SwiftDemoApp.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>9F90E70153298FDDC5012D6800C8568ACED86698</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/fsli/rest_app_demo.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>9F90E70153298FDDC5012D6800C8568ACED86698</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>9F90E70153298FDDC5012D6800C8568ACED86698</string>
+			<key>IDESourceControlWCCName</key>
+			<string>rest_app_demo</string>
+		</dict>
+	</array>
+</dict>
+</plist>
