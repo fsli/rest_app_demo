@@ -63,7 +63,6 @@ class UserTableViewController: UITableViewController {
             cell.deleteButton.addTarget(self, action: "onDeleteButtonTouchUpInside:", forControlEvents: UIControlEvents.TouchUpInside)
             cell.deleteButton.hidden = false
             cell.deleteButton.tag = user.id
-            cell.saveButton.tag = indexPath.row
         }
         return cell
     }
@@ -134,40 +133,23 @@ class UserTableViewController: UITableViewController {
     func loadUsers() {
         
         let url : String = "http://boiling-ocean-2662.herokuapp.com/api/v1/users"
-        let request : NSMutableURLRequest = NSMutableURLRequest()
-        request.URL = NSURL(string: url)
-        request.HTTPMethod = "GET"
-        
-        NSURLConnection.sendAsynchronousRequest(request, queue: NSOperationQueue(), completionHandler:{ (response:NSURLResponse?, data: NSData?, error: NSError?) -> Void in
-            //var error: AutoreleasingUnsafeMutablePointer<NSError?> = nil
-            //var parseError: NSError?
-            do {
-            let parsedObject: AnyObject? = try NSJSONSerialization.JSONObjectWithData(data!,
-                options: NSJSONReadingOptions.AllowFragments)
-
-                //2
-                self.users = [User]()
-                if let rows = parsedObject as? NSArray {
-                    for i in 0 ... rows.count - 1 {
-                        let row = rows[i] as! NSDictionary
-                        let id = row["id"] as! Int
-                        let username = row["username"] as! String
-                        let user = User(id: id, username: username)
-                        self.users.append(user!)
-                    }
+        HttpRestApiHelper.get(url) { (result : NSObject!) in
+            self.users = [User]()
+            if let rows = result as? NSArray {
+                for i in 0 ... rows.count - 1 {
+                    let row = rows[i] as! NSDictionary
+                    let id = row["id"] as! Int
+                    let username = row["username"] as! String
+                    let user = User(id: id, username: username)
+                    self.users.append(user!)
                 }
-                
-            } catch let error as NSError {
-                print("json error: \(error.localizedDescription)")
             }
             dispatch_async(dispatch_get_main_queue(), {
                 self.tableView!.reloadData()
             })
-            
-        })
-
+        }
     }
-    
+        
     func addUser(username: String) {
         if (username.isEmpty == true) {
             return
