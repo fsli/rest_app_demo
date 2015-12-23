@@ -9,6 +9,37 @@
 import Foundation
 
 class HttpRestApiHelper {
+    class func get(url: String,  completionHandler : (result: NSObject!) -> Void) {
+        let nsUrl = NSURL(string: url)
+        let request = NSMutableURLRequest(URL: nsUrl!)
+        let session = NSURLSession.sharedSession()
+        request.HTTPMethod = "GET"
+        
+        
+        
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.addValue("application/json", forHTTPHeaderField: "Accept")
+        
+        let task = session.dataTaskWithRequest(request, completionHandler: {data, response, error -> Void in
+            print("Response: \(response)")
+            let strData = NSString(data: data!, encoding: NSUTF8StringEncoding)
+            print("Body: \(strData)")
+            do {
+                let nsObj = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableLeaves) as? NSObject
+                completionHandler(result: nsObj!)
+                
+                
+            }catch let error as NSError {
+                print(error.localizedDescription)
+                let jsonStr = NSString(data: NSKeyedArchiver.archivedDataWithRootObject(data!)
+                    , encoding: NSUTF8StringEncoding)
+                print("Error could not parse JSON: '\(jsonStr)'")
+                completionHandler(result: nil)
+            }
+        })
+        task.resume()
+    }
+    
     class func post(url: String, postdata: NSObject ,  completionHandler : (result: NSObject!) -> Void) {
         let nsUrl = NSURL(string: url)
         let request = NSMutableURLRequest(URL: nsUrl!)
