@@ -20,6 +20,7 @@ class UserTableViewCell: UITableViewCell {
     
     @IBOutlet weak var deleteButton: UIButton!
     
+    @IBOutlet weak var pictureImageView: UIImageView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

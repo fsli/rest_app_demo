@@ -11,10 +11,11 @@ import Foundation
 class User {
     var id: Int
     var username: String
-    
+    var picture: String
     init?(id: Int, username: String) {
         self.id = id
         self.username = username
+        self.picture = ""
         if id < 0 || username.isEmpty {
             return nil
         }
